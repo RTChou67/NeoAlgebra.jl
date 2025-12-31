@@ -32,18 +32,20 @@ function Davidson(A::AbstractMatrix, n_roots::Int; max_iter = 100, tol = 1e-6)
 			max_res_norm = max(max_res_norm, res_norm)
 			if res_norm < tol
 				converged_cnt += 1
+				NewVecs[:, k] .= 0.0
+				continue
 			else
 				for i in 1:dim
 					diff = E - diag_A[i]
 					if abs(diff) < 1e-4
-						diff = sign(diff) * 1e-4
+						diff = 1e-4
 					end
 					NewVecs[i, k] = r_vec[i] / diff
 				end
 			end
 		end
 
-		if iter % 1 == 0
+		if iter % 10 == 0
 			@printf("Davidson Iter %2d: E=%.8f MaxRes=%.2e Dim=%d\n",
 				iter, current_evals[1], max_res_norm, curr_dim)
 		end
