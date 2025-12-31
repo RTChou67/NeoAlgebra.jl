@@ -1,4 +1,18 @@
-name = "ChemAlgrbra"
+name = "ChemAlgebra"
 uuid = "a20ab55d-8ed9-4713-9dce-23ab55040318"
 version = "0.1.0"
 authors = ["RTChou67 <3023207450@tju.edu.cn>"]
+
+[deps]
+Arpack = "7d9fca2a-8960-54d3-9f78-7d1dccf2cb97"
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+
+[compat]
+Arpack = "0.5.4"
+BenchmarkTools = "1.6.3"
+LinearAlgebra = "1.12.0"
+Printf = "1.11.0"
+SparseArrays = "1.12.0"

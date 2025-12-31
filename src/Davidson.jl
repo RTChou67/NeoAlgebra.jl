@@ -1,4 +1,4 @@
-function solve_davidson(A::AbstractMatrix, n_roots::Int; max_iter = 100, tol = 1e-6)
+function Davidson(A::AbstractMatrix, n_roots::Int; max_iter = 100, tol = 1e-6)
 	dim = size(A, 1)
 	max_subspace = min(dim, n_roots * 20)
 	diag_A = Vector(diag(A))

@@ -1,9 +1,10 @@
-module ChemAlgrbra
+module ChemAlgebra
 using SparseArrays
 using LinearAlgebra
 using Arpack
 using BenchmarkTools
+using Printf
 include("Davidson.jl")
 include("Benchmark.jl")
-export solve_davidson
+export Davidson
 end
