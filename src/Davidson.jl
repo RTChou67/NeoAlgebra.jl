@@ -41,7 +41,7 @@ function Davidson(A::AbstractMatrix, n_roots::Int; max_iter = 100, tol = 1e-6)
 				for i in 1:dim
 					diff = E - diag_A[i]
 					if abs(diff) < 1e-4
-						diff = 1e-4
+						diff = (diff == 0) ? 1e-4 : sign(diff) * 1e-4
 					end
 					NewVecs[i, k] = r_vec[i] / diff
 				end
@@ -80,8 +80,24 @@ function Davidson(A::AbstractMatrix, n_roots::Int; max_iter = 100, tol = 1e-6)
 			end
 		end
 		if curr_dim == old_dim
-			error("Davidson error: Subspace stagnation detected at iter $iter. (Max Res: $last_max_res)")
+			println("Davidson warning: Subspace stagnation detected at iter $iter. (Max Res: $last_max_res)")
+			V_view = view(V, :, 1:curr_dim)
+			H_sub_view = view(H_sub, 1:curr_dim, 1:curr_dim)
+			evals_sub, evecs_sub = eigen(Symmetric(H_sub_view))
+			idx_sort = sortperm(evals_sub)
+			current_evals = evals_sub[idx_sort[1:n_roots]]
+			coeffs = view(evecs_sub, :, idx_sort[1:n_roots])
+			FinalVecs = V_view * coeffs
+			return current_evals, FinalVecs
 		end
 	end
-	error("Davidson error: Failed to converge within $max_iter iterations. (Final Max Res: $last_max_res)")
+	println("Davidson warning: Failed to converge within $max_iter iterations. (Final Max Res: $last_max_res)")
+	V_view = view(V, :, 1:curr_dim)
+	H_sub_view = view(H_sub, 1:curr_dim, 1:curr_dim)
+	evals_sub, evecs_sub = eigen(Symmetric(H_sub_view))
+	idx_sort = sortperm(evals_sub)
+	current_evals = evals_sub[idx_sort[1:n_roots]]
+	coeffs = view(evecs_sub, :, idx_sort[1:n_roots])
+	FinalVecs = V_view * coeffs
+	return current_evals, FinalVecs
 end
