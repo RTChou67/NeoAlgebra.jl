@@ -2,7 +2,6 @@ module ChemAlgebra
 using SparseArrays
 using LinearAlgebra
 using Arpack
-using Revise
 using BenchmarkTools
 using Printf
 using Random
